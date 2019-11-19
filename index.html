@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Open Space Program</title>
+	<style type="text/css">
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+		}
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+		#images {
+			display: none;
+		}
+		#ui {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			width: 200px;
+			height: 200px;
+			padding: 5px;
+			background: white;
+			border-radius: 10px;
+			display: none;
+		}
+	</style>
+	<script>
+		console.log("Open Space Program Html5 - Version 0.1.0")
+		console.log("It is normal to sometimes see errors on startup.")
+	</script>
+</head>
+<body>
+<div id="ui">
+	<span>Zoom:</span>
+	<br>
+	<input type="range" id="zoom" min="1" max="100" value="50">
+	<br>
+	<span><b>Stats:</b></span>
+	<br>
+	FPS: <span id="fps"></span>
+	<br>
+	Camera X: <span id="camerax"></span>
+	<br>
+	Camera Y: <span id="cameray"></span>
+	<br>
+	Controlling: <span id="controlling"></span>
+	<br>
+	<button onclick="stabilize()">Stabilize SpaceCraft</button>
+</div>
+<canvas id="canvas" onmousemove="getMouse(event)" oncontextmenu="event.preventDefault()">
+	
+</canvas>
+<div id="images">
+	<img src="images/tank.png" id="tank">
+	<img src="images/engine.png" id="engine">
+	<img src="images/module.png" id="module">
+	<img src="images/roboModule.png" id="roboModule">
+	<img src="images/seperator.png" id="seperator">
+	<img src="images/solarpanel.png" id="solarpanel">
+	<img src="images/solarpanel-open.png" id="solarpanel-open">
+</div>
+</body>
+
+<!-- Scripts must be loaded in this order -->
+<script src="main.js"></script>
+<script src="data.js"></script>
+<script src="draw.js"></script>
+<script src="physics.js"></script>
+</html>
