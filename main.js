@@ -13,30 +13,82 @@ window.onload = function() {
 		fps = 0;
 	}, 1000);
 
-	// Start a screen loop
-	flight();
+	// Add initial items to builder GUI
+	// Fill side menu with categories
+	for (var i = 0; i < categories.length; i++) {
+		document.getElementById('rocketBuilder').innerHTML += `
+			<div class='category' category='` + categories[i] + `'>
+				<p class='heading'>` + categories[i] + `:</p>
+			</div>
+		`
+	}
+
+	// Add images to the categories
+	var parts = Object.entries(partsProp);
+	for (var i = 0; i < parts.length; i++) {
+		var current = parts[i][1];
+		var category = document.querySelectorAll("[category='" + current.category + "']");
+
+		// Add clickable image to the category
+		category[0].innerHTML += `
+			<img src="images/` + current.image + `.png" title="` + parts[i][0] + `" part="` + parts[i][0] + `">
+		`;
+	}
+
+	// Start game
+	updateRoom();
 }
 
-function spaceCraftEditor() {
-	setInterval(function() {
+// Very simple function to change room from editor to flight. Not very good method, but will do for now
+function switchRoom() {
+	if (game.currentRoom == "flight") {
+		game.currentRoom = "editor";
+	} else if (game.currentRoom == "editor") {
+		game.currentRoom = "flight";
+	}
+
+	updateRoom();
+}
+
+// Start a screen loop according to game.currentRoom. This method is also outdated, but will do for now
+function updateRoom() {
+	clearInterval(game.currentRoomLoop);
+	eval(game.currentRoom)();
+	if (game.currentRoom == "flight") {
+		document.getElementById("switchRoom").innerHTML = "Edit Craft";
+	} else if (game.currentRoom == "editor") {
+		document.getElementById("switchRoom").innerHTML = "Lunch!"; // Yes, this is intentional
+	}
+
+	// Hide all GUI divs
+	document.getElementById('rocketBuilder').style.display = "none";
+	document.getElementById('stats').style.display = "none";
+}
+
+// Render a spacecraft builder
+function editor() {
+	game.currentRoomLoop = setInterval(function() {
 
 		// Resize Canvas to page
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
+
+		document.getElementById('rocketBuilder').style.display = "block";
 		
 		// Clear page
 		c.fillStyle = "lightblue";
 		c.fillRect(0, 0, canvas.width, canvas.height);
 
-		spacecrafts["Explorer"]["x"] = canvas.width / 2;
-		spacecrafts["Explorer"]["y"] = canvas.height / 2;
-		drawSpaceCraft("Explorer");
-	}, 1)
+		// Draw the current spacecraft
+		spacecrafts[game.currentlyControlling]["x"] = 600;
+		spacecrafts[game.currentlyControlling]["y"] = canvas.height / 2 - getCraftDimensions("Explorer", "height") / 2;
+		drawSpaceCraft(game.currentlyControlling);
+	}, 1);
 }
 
 // Show the flight screen
 function flight() {
-	setInterval(function() {
+	game.currentRoomLoop = setInterval(function() {
 
 		// Resize Canvas to page
 		canvas.width = window.innerWidth;
@@ -56,7 +108,7 @@ function flight() {
 		applyPhysics("Explorer");
 
 		// Other background loops
-		document.getElementById('ui').style.display = "block";
+		document.getElementById('stats').style.display = "block";
 		document.getElementById('fps').innerHTML = currentFPS;
 		document.getElementById('camerax').innerHTML = Math.round(game.cameraX);
 		document.getElementById('cameray').innerHTML = Math.round(game.cameraY);

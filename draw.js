@@ -14,7 +14,7 @@ function drawSpaceCraft(name) {
 		var partProp = partsProp[currentPart]; // To partsProp for current part
 		var image = partProp["image"]; // The image to be drawn for the part
 
-		// Custom part interaction controller, 
+		// Custom part interaction controller
 		if (parts[i].length > 1) {
 			if (parts[i][1].open !== false) {
 				var control = partProp.properties[parts[i][1].open];
@@ -47,7 +47,7 @@ function drawSpaceCraft(name) {
 		// 	10, 
 		// );
 
-		// Calculate Size for next part
+		// Calculate rotation formulas for the next part
 		var nextSize = [];
 		if (i !== parts.length - 2) {
 

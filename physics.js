@@ -1,4 +1,4 @@
-// Simple Physics Engine
+// Rocket Physics Engine
 function applyPhysics(name) {
 	var spacecraft = spacecrafts[name];
 	var parts = spacecraft.parts;
@@ -6,10 +6,10 @@ function applyPhysics(name) {
 	spacecraft.x = canvas.width/2;
 	spacecraft.y = canvas.height/2.2;
 
-	var hasComputer = hasCategory(name, "computer");
-	var hasEngine = hasCategory(name, "engines");
+	var hasComputer = hasCategory(name, "Computers");
+	var hasEngine = hasCategory(name, "Engines");
 
-	// 360 Rotation Fixing
+	// Use 360 rotation only
 	if (spacecraft.rotation > 360) {
 		spacecraft.rotation = 0;
 	} else if (spacecraft.rotation < -360) {
@@ -20,7 +20,7 @@ function applyPhysics(name) {
 	if (hasComputer == false) {
 		spacecraft.rotation += spacecraft.rotateVel;
 	} else {
-		// !! Calculate spacecraft weight/height
+		// Calculate spacecraft weight/height (hasn't been done)
 		spacecraft.rotation = spacecraft.rotateVel * 20;
 	}
 
@@ -35,21 +35,9 @@ function applyPhysics(name) {
 		game.cameraX -= spacecraft.xVel
 		game.cameraY += spacecraft.yVel;
 	}
-
-	// if (hasEngine) {
-	// 	if (spacecraft.engineOn) {
-	// 		spacecraft.forwardVel += 0.01;
-
-	// 		spacecraft.xVel = spacecraft.forwardVel * Math.sin(spacecraft.rotation);
-	// 		spacecraft.yVel = spacecraft.forwardVel * Math.cos(spacecraft.rotation);
-	// 	}
-
-	// 	spacecraft.x += spacecraft.xVel;
-	// 	spacecraft.y += spacecraft.yVel;
-	// }
 }
 
-// Function to "orbit" spacecraft in a circle
+// Function to move spacecraft in a circle (for demonstration)
 function move(name) {
 	var spacecraft = spacecrafts[name];
 	var r = 50; // Radius of orbit

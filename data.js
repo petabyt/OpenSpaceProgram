@@ -2,6 +2,8 @@
 var game = {
 	zoom: 1, // Zoom level of the game
 	currentlyControlling: "Explorer", // Name of spacecraft currently controlling,
+	currentRoom: "editor",
+	currentRoomLoop: null, // current SetInterval for the room loop
 	cameraX: 0,
 	cameraY: 0,
 	mx: 0, // Mouse X and Y
@@ -13,7 +15,9 @@ var spacecrafts = {
 	"Explorer": {
 		"x": 0, // Where the rocket is drawn on the screen, not the whole universe
 		"y": 0,
-		"rotation": 40,
+		"rx": 200, // Real X + Y, in the world
+		"ry": 200,
+		"rotation": 0,
 		"rotateVel": 0,
 		"xVel": 0, // Rotation for this rocket
 		"yVel": 0,
@@ -21,25 +25,8 @@ var spacecrafts = {
 		parts: [
 			["module"],
 			["fueltank"],
-			["engine"],
-			["seperator"],
 			["fueltank"],
 			["engine"]
-		]
-	},
-	"Sat": {
-		"x": 400, // Where the rocket is drawn on the screen, not the whole universe
-		"y": 400,
-		"rotation": 0,
-		"rotateVel": 0,
-		"xVel": 0, // Rotation for this rocket
-		"yVel": 0,
-		"forwardVel": 0,
-		parts: [
-			["roboModule"],
-			["solarpanel", {
-				"open": "onOpen"
-			}]
 		]
 	}
 };
@@ -51,25 +38,25 @@ var planets = [
 		"color": "green", // Temporary, will use images later
 		"gravity": -0.7,
 		"radius": 500,
-		"x": -500 + game.cameraX,
-		"y": -500 + game.cameraY
+		"rx": -500,
+		"ry": -500,
+		"x": 0,
+		"y": 0
 	}
 ];
 
 // Update location relative to camera
 setInterval(function() {
-		planets[0].x = -500 + game.cameraX;
-		planets[0].y = -500 + game.cameraY;
-		spacecrafts["Sat"].x = 200 + game.cameraX;
-		spacecrafts["Sat"].y = 200 + game.cameraY;
-}, 1)
+		planets[0].x = planets[0].rx + game.cameraX;
+		planets[0].y = planets[0].ry + game.cameraY;
+}, 1);
 
 // Dimensions and stuff for each part
 var partsProp = {
 	"fueltank": {
 		"width": 50,
 		"height": 50,
-		"category": "tanks",
+		"category": "Fuel Tanks",
 		"image": "tank",
 		"properties": {
 			"capacity": 100
@@ -79,7 +66,7 @@ var partsProp = {
 	"engine": {
 		"width": 25,
 		"height": 25,
-		"category": "engines",
+		"category": "Engines",
 		"image": "engine",
 		"properties": {
 			"power": 5
@@ -89,7 +76,7 @@ var partsProp = {
 	"module": {
 		"width": 50,
 		"height": 50,
-		"category": "command",
+		"category": "Modules",
 		"image": "module",
 		"properties": {
 			"people": 1,
@@ -100,7 +87,7 @@ var partsProp = {
 	"roboModule": {
 		"width": 50,
 		"height": 50,
-		"category": "computer",
+		"category": "Computers",
 		"image": "roboModule",
 		"properties": {
 			"charge": 100,
@@ -110,7 +97,7 @@ var partsProp = {
 	"seperator": {
 		"width": 50,
 		"height": 10,
-		"category": "seperators",
+		"category": "Seperators",
 		"image": "seperator",
 		"properties": {
 			"explosion": 5,
@@ -120,10 +107,19 @@ var partsProp = {
 	"solarpanel": {
 		"width": 50,
 		"height": 50,
-		"category": "solarpanels",
+		"category": "Solar Panels",
 		"image": "solarpanel",
 		"properties": {
 			"onOpen": ["image", "solarpanel-open"]
 		}
 	}
-}
+};
+
+var categories = [
+	"Fuel Tanks",
+	"Engines",
+	"Modules",
+	"Computers",
+	"Seperators",
+	"Solar Panels"
+];

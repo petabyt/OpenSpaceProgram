@@ -2,38 +2,13 @@
 <html>
 <head>
 	<title>Open Space Program</title>
-	<style type="text/css">
-		body, html {
-			width: 100%;
-			height: 100%;
-			margin: 0;
-		}
-		canvas {
-			width: 100%;
-			height: 100%;
-		}
-		#images {
-			display: none;
-		}
-		#ui {
-			position: absolute;
-			top: 10px;
-			left: 10px;
-			width: 200px;
-			height: 200px;
-			padding: 5px;
-			background: white;
-			border-radius: 10px;
-			display: none;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<script>
-		console.log("Open Space Program Html5 - Version 0.1.0")
-		console.log("It is normal to sometimes see errors on startup.")
+		console.log("Open Space Program Html5 - Version 0.1.0");
 	</script>
 </head>
 <body>
-<div id="ui">
+<div id="stats">
 	<span>Zoom:</span>
 	<br>
 	<input type="range" id="zoom" min="1" max="100" value="50">
@@ -49,6 +24,12 @@
 	Controlling: <span id="controlling"></span>
 	<br>
 	<button onclick="stabilize()">Stabilize SpaceCraft</button>
+</div>
+<div id="rocketBuilder">
+	
+</div>
+<div class="button" id="switchRoom" onclick="switchRoom()">
+	Lunch!
 </div>
 <canvas id="canvas" onmousemove="getMouse(event)" oncontextmenu="event.preventDefault()">
 	
