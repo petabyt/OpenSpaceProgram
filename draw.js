@@ -48,8 +48,7 @@ function drawSpaceCraft(name) {
 		// );
 
 		// Calculate rotation formulas for the next part
-		var nextSize = [];
-		if (i !== parts.length - 2) {
+		if (i !== parts.length - 2) { // If part is not second to last
 
 			// Move parts up if the next one is smaller than 50,50
 			var offsetX = 0;
@@ -80,19 +79,19 @@ function drawSpaceCraft(name) {
 				}
 			}
 
-			nextSize[0] = partProp.width + offsetX;
-			nextSize[1] = partProp.height + offsetY;
+			offsetX = partProp.width + offsetX;
+			offsetY = partProp.height + offsetY;
 		} else {
 			var width = partsProp[parts[i + 1][0]].width;
 			var height = partsProp[parts[i + 1][0]].height;
 
-			nextSize[0] = width + (50 - width) / 2;
-			nextSize[1] = height + (50 - height) / 2;
+			offsetX = width + (50 - width) / 2;
+			offsetY = height + (50 - height) / 2;
 		}
 
 		// Get where part should go with the rotation (formula name)
-		dx = nextSize[0] / game.zoom * Math.cos((spacecraft["rotation"] + 90) * Math.PI / 180);
-		dy = nextSize[1] / game.zoom * Math.sin((spacecraft["rotation"] + 90) * Math.PI / 180);
+		dx = offsetX / game.zoom * Math.cos((spacecraft["rotation"] + 90) * Math.PI / 180);
+		dy = offsetY / game.zoom * Math.sin((spacecraft["rotation"] + 90) * Math.PI / 180);
 
 		// Tell next part to go before the last one
 		nextXY[0] += dx;

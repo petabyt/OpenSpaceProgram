@@ -24,8 +24,12 @@ var spacecrafts = {
 		"forwardVel": 0,
 		parts: [
 			["module"],
-			["fueltank"],
-			["fueltank"],
+			["engine"],
+			["seperator"],
+			["engine"],
+			["seperator"],
+			["engine"],
+			["seperator"],
 			["engine"]
 		]
 	}
